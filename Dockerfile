@@ -1,10 +1,7 @@
-FROM python:3-alpine
+FROM python:3.8.8-slim
+COPY ./requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
+EXPOSE 8001
 
-RUN python -m pip install --upgrade pip
-
-RUN pip3 install requests paho-mqtt
-
-RUN pip install "tutor[full]"
-
-RUN apt install python3 python3-pip libyaml-dev
-
+COPY ./app /app
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
